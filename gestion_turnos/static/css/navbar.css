@@ -1,0 +1,86 @@
+/* Barra de navegación */
+.navbar {
+    background-color: #ffffff; 
+    padding: 10px 20px;
+}
+
+.navbar-brand {
+    color: #2C3E50;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-right: 20px;
+}
+
+.navbar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.nav-item {
+    margin-left: 20px;
+    padding: 10px;
+    transition: background-color 0.3s, transform 0.3s;
+    border-bottom: 3px solid transparent;
+}
+
+.nav-item:hover {
+    background-color: #e0e0e0; 
+    transform: scale(1.05); 
+}
+
+.nav-item:focus, .nav-item:active {
+    background-color: #c0c0c0; 
+}
+
+
+/* Estilo general del toggler */
+.navbar-toggler {
+    background-color: #7f8c8d;
+    border-color: #7f8c8d; 
+}
+
+
+/* Toggler cuando está activo (desplegado) */
+.navbar-toggler:focus, .navbar-toggler:active {
+    outline: none; 
+    background-color: #7f8c8d; 
+    border-color: #7f8c8d; 
+}
+
+nav ul li.active a {
+    font-weight: bold;
+    color: #2980B9; 
+}
+
+/* Estilos personalizados para el botón de cierre de sesión */
+.btn-logout {
+    background-color: #dc3545;
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    font-size: 16px; 
+    border-radius: 5px; 
+    display: inline-flex; 
+    align-items: center;
+    text-decoration: none; 
+    transition: background-color 0.3s ease; 
+}
+
+.btn-logout i {
+    margin-right: 8px;
+    font-size: 18px; 
+}
+
+.btn-logout:hover {
+    background-color: #c82333; 
+    text-decoration: none; 
+}
+
+.btn-logout:focus {
+    outline: none; 
+}
+

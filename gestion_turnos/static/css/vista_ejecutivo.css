@@ -1,0 +1,360 @@
+/* Barra de navegación */
+.navbar {
+    background-color: #ffffff; 
+    padding: 10px 20px;
+}
+
+.navbar-brand {
+    color: #2C3E50;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-right: 20px;
+}
+
+.navbar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.nav-item {
+    margin-left: 20px;
+    padding: 10px;
+    transition: background-color 0.3s, transform 0.3s;
+    border-bottom: 3px solid transparent;
+}
+
+.nav-item:hover {
+    background-color: #e0e0e0; 
+    transform: scale(1.05); 
+}
+
+.nav-item:focus, .nav-item:active {
+    background-color: #c0c0c0; 
+}
+
+.navbar-toggler {
+    background-color: #7f8c8d;
+    border-color: #7f8c8d; 
+}
+
+
+.navbar-toggler:focus, .navbar-toggler:active {
+    outline: none; 
+    background-color: #7f8c8d; 
+    border-color: #7f8c8d; 
+}
+
+nav ul li.active a {
+    font-weight: bold;
+    color: #2980B9; 
+}
+
+
+/* Estilos generales */
+html, body {
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #ffffff; 
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column; 
+    overflow-x: hidden;
+}
+
+.container {
+    flex: 1;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+
+main {
+    flex: 1;
+    margin-top: 20px;
+    padding: 20px;
+}
+
+/* Footer */
+footer {
+    padding: 20px;
+    text-align: center;
+    color: #ffffff;
+    font-size: 1rem;
+    background-color: #34495e;
+    width: 100vw;
+    position: relative;
+    bottom: 0;
+    flex-shrink: 0;
+}
+
+
+/* Estilos personalizados para el botón de cierre de sesión */
+.btn-logout {
+    background-color: #dc3545;
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    font-size: 16px; 
+    border-radius: 5px; 
+    display: inline-flex; 
+    align-items: center;
+    text-decoration: none; 
+    transition: background-color 0.3s ease; 
+}
+
+.btn-logout i {
+    margin-right: 8px;
+    font-size: 18px; 
+}
+
+.btn-logout:hover {
+    background-color: #c82333; 
+    text-decoration: none; 
+}
+
+.btn-logout:focus {
+    outline: none; 
+}
+
+
+/* Ajuste del calendario */
+#calendar {
+    width: 100%; 
+    max-width: 1600px; 
+    height: 400px;
+    padding: 5px; 
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    margin-top: 20px;
+}
+
+/* Estilos generales para FullCalendar */
+.fc {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Estilos del calendario */
+.fc .fc-col-header-cell-cushion {
+    background-color: #ffffff;
+    color: #000000;
+    font-weight: bold;
+    padding: 8px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.fc .fc-daygrid-day {
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #e0e0e0;
+    font-size: 0.85rem;
+}
+
+/* Ajustar el tamaño del número de semana */
+.fc .fc-daygrid-week-number, .fc .fc-week-number {
+    font-size: 0.7rem;
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+    background-color: #eaf6ff;
+}
+
+.fc .fc-daygrid-day-number {
+    color: #000000;
+    font-size: 0.85rem;
+}
+
+.fc .fc-highlight {
+    background-color: #d1e8ff;
+}
+
+.fc .fc-event {
+    background-color: #1abc9c;
+    border: 1px solid #1abc9c;
+    color: #FFFFFF;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.fc .fc-toolbar-title {
+    color: #1E1E2D;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1rem;
+}
+
+.fc-toolbar {
+    margin-top: 20px; 
+}
+
+
+
+
+.calendar-container {
+    width: 100%;
+    padding: 0 20px;
+    background-color: transparent;
+}
+
+/* Título del calendario */
+.fc-toolbar-title {
+    font-size: 1.5rem;
+    color: #2c3e50;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+/* Botones de navegación */
+.fc-button-primary {
+    background-color: #3498db;
+    border: none;
+    border-radius: 5px;
+}
+
+.fc-button-primary:hover {
+    background-color: #2980b9;
+}
+
+/* Ajuste de FullCalendar para vista de múltiples meses */
+.fc-multimonth .fc-daygrid-day {
+    padding: 3px; /* Reduce el espacio en cada día */
+    font-size: 0.8rem; /* Reduce el tamaño de la fuente */
+}
+
+.fc-multimonth .fc-daygrid-day .fc-daygrid-event {
+    font-size: 0.7rem; /* Tamaño de fuente de eventos */
+    margin: 2px 0; /* Reduce espacio entre eventos */
+    padding: 2px 4px; /* Ajusta padding en cada evento */
+    border-radius: 3px;
+}
+
+/* Ocultar el borde entre los meses para un diseño compacto */
+.fc-multimonth .fc-daygrid {
+    border: none;
+}
+
+/* Ajuste de altura para eliminar el desplazamiento vertical */
+#calendar {
+    height: 85vh; /* Usa una altura dinámica */
+    overflow-y: hidden; /* Evita el desplazamiento */
+}
+
+
+/* Títulos */
+h1, h2 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+}
+
+
+
+/* Calendario */
+#calendar {
+    width: 100%; 
+    max-width: 1600px;
+    height: 400px;
+    padding: 5px; 
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    margin-top: 20px;
+}
+
+/* Ajustes de FullCalendar */
+.fc-toolbar-title {
+    font-size: 1.5rem;
+    color: #2c3e50;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.fc-button-primary {
+    background-color: #3498db;
+    border: none;
+    border-radius: 5px;
+}
+
+.fc-button-primary:hover {
+    background-color: #2980b9;
+}
+
+/* Estilos de vista de varios meses en pantallas grandes */
+.fc-multimonth .fc-daygrid-day {
+    padding: 3px;
+    font-size: 0.8rem;
+}
+
+.fc-multimonth .fc-daygrid-day .fc-daygrid-event {
+    font-size: 0.7rem;
+    margin: 2px 0;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+#calendar {
+    height: 85vh;
+    overflow-y: hidden;
+}
+
+
+
+/* Títulos */
+h1, h2 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+}
+
+/* Pantallas Grandes */
+@media (min-width: 1440px) {
+    .container {
+        max-width: 90%;
+    }
+
+    #calendar {
+        height: 90vh; /* Aprovecha más espacio vertical */
+    }
+
+    .fc-toolbar-title {
+        font-size: 2rem; /* Tamaño de título más grande en pantallas grandes */
+    }
+}
+
+/* Pantallas Medianas */
+@media (min-width: 1024px) and (max-width: 1440px) {
+    #calendar {
+        max-width: 1200px;
+        height: 70vh;
+    }
+
+    .fc-toolbar-title {
+        font-size: 1.6rem;
+    }
+}
+
+/* Pantallas Pequeñas */
+@media (max-width: 768px) {
+    .container {
+        width: 95vw;  
+    }
+    #calendar {
+        min-height: 300px; 
+    }
+    .fc-toolbar-title {
+        font-size: 1.2rem;
+    }
+
+    .fc-multimonth .fc-daygrid-day {
+        padding: 2px;
+        font-size: 0.7rem;
+    }
+}

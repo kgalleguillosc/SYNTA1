@@ -1,0 +1,199 @@
+/* Estilos globales */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* Contenedor principal */
+.container-fluid {
+    height: 100vh;
+    display: flex;
+    align-items: center; 
+    justify-content: space-between;
+    padding: 20px; 
+}
+
+/* Estilos para la columna izquierda */
+.left-container {
+    background-color: #007bff;
+    color: white;
+    padding: 60px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    flex: 1; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); 
+}
+
+.left-container h1 {
+    font-size: 2.8rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.left-container p {
+    font-size: 1.4rem;
+    line-height: 1.6;
+}
+
+/* Estilos para la columna derecha (formulario) */
+.login-container {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); 
+    max-width: 400px; 
+    margin-right: 60px; 
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+}
+
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05); 
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2); 
+}
+
+/* Botón de inicio de sesión */
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para los enlaces en el formulario */
+.login-container p {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.login-container p a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.login-container p a:hover {
+    text-decoration: underline;
+}
+
+/* Contenedor del input y el botón */
+.input-group {
+    position: relative;
+    max-width: 400px;
+    display: flex; 
+    align-items: center;
+}
+
+/* Asegurar que el input no ocupe todo el ancho */
+.input-group .form-control {
+    width: 80%; 
+    padding-right: 10px;  
+    box-sizing: border-box;
+    height: 45px;  
+    border-radius: 0.25rem;
+    z-index: 1;
+
+}
+
+/* Estilo del botón del ojo */
+.input-group .btn {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    cursor: pointer;
+    height: 45px;
+    width: 45px;  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.25rem; 
+}
+
+/* El ícono del ojo */
+.input-group .btn i {
+    font-size: 1.2rem;
+}
+
+/* Hover para el botón */
+.input-group .btn:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos de alerta para mensajes de error */
+.alert-danger {
+    color: #b71c1c;
+    background-color: #ffebee;
+    border-color: #ef9a9a;
+    border-radius: 8px;
+    padding: 12px 20px;
+    margin-top: 15px;
+    font-size: 15px;
+    font-weight: 500;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.alert-danger i {
+    margin-right: 10px;
+    font-size: 18px;
+    color: #b71c1c;
+
+
+}
+
+.alert-danger:hover {
+    background-color: #ffcdd2;
+    border-color: #e57373;
+}
+
+.alert-danger.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+}
+
+

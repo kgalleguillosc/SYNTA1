@@ -1,0 +1,407 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title> SYNTA</title>
+    <!--Incluir CSS -->
+    <link rel="stylesheet" href="{% static 'css/Empleados.css' %}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+
+
+     <!-- Incluir FullCalendar CSS y JS -->
+     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css" rel="stylesheet">
+     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Lista Empleados</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    
+    <main class="container">
+        <div class="d-flex justify-content">
+            <div class="card card-resumen-turnos">
+                <div class="card-body">
+                    <h5 class="card-title">Resumen de Turnos</h5>
+                    <div class="resumen-estados">
+                        <p>Aprobados: <span id="resumen-aprobados" class="badge bg-success badge-numero" style="font-size: 1rem; font-weight: bold";>0</span></p>
+                        <p>Pendientes: <span id="resumen-pendientes" class="badge bg-warning badge-numero" style="font-size: 1rem; font-weight: bold">0</span></p>
+                        <p>Rechazados: <span id="resumen-rechazados" class="badge bg-danger badge-numero" style="font-size: 1rem; font-weight: bold">0</span></p>
+                        <p>No Asignados: <span id="resumen-no-asignados" class="badge bg-secondary badge-numero" style="font-size: 1rem; font-weight: bold">0</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div id="infoTrabajador" class="table-responsive">
+            <table id="tablaEmpleados" class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="selectAll"></th>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Departamento</th>
+                        <th>Rut</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if empleados %}
+                        {% for empleado in empleados %}
+                            <tr>
+                                <td><input type="checkbox" class="select-row" data-id="{{ empleado.id }}"></td>
+                                <td>{{ forloop.counter }}</td>
+                                <td style="text-align: center;">{{ empleado.first_name }} {{ empleado.last_name }}</td>
+                                <td style="text-align: center;">{{ empleado.departamento }}</td>
+                                <td style="text-align: center;">{{ empleado.rut }}</td>
+                                <td id="estado-{{empleado.rut_f}}">
+                                    {% if empleado.estado_turno == "No Asignado" %}
+                                        <span class="badge bg-dark estado-no-asignado">No Asignado</span>
+                                    {% elif empleado.estado_turno == "Pendiente" %}
+                                        <span class="badge bg-warning estado-pendiente">Pendiente</span>
+                                    {% elif empleado.estado_turno == "Aprobado" %}
+                                        <span class="badge bg-success estado-aprobado">Aprobado</span>
+                                    {% elif empleado.estado_turno == "Rechazado" %}
+                                        <span class="badge bg-danger estado-rechazado">Rechazado</span>
+                                    {% endif %}
+                                </td>
+                                <td id="botones-{{ empleado.rut}}">
+                                    {% if empleado.estado_turno == "Pendiente" and user.rol == "rrhh"%}
+                                        <button class="btn btn-sm btn-success btn-approve" data-rut="{{ empleado.rut }}">Aprobar</button>
+                                        <button class="btn btn-sm btn-danger btn-reject" data-rut="{{ empleado.rut }}">Rechazar</button>
+                                    {% endif %}
+                                    
+                                
+                                    <button class="btn btn-sm btn-secondary" onclick="location.href='/calendario_general?trabajador={{ empleado.rut }}'">
+                                        Ver Turno
+                                    </button>
+                                    
+                                    
+                                                                
+                                    {% if user.rol != "rrhh" and empleado.estado_turno == "Rechazado" %}
+                                    <button class="btn btn-sm btn-primary" onclick="modificarYReasignarTurnos('{{ empleado.rut }}', '{{ empleado.full_name}}')">Modificar</button>
+                                    {% endif %}
+                                </td>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6">No tienes empleados a tu cargo.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+
+            <div class="mt-3">
+                <button id="aprobarSeleccionados" class="btn btn-primary">Aprobar Seleccionados</button>
+                <button id="rechazarSeleccionados" class="btn btn-primary">Rechazar Seleccionados</button>
+            </div>
+        </div>
+    
+        
+    </main> 
+    
+    <footer>
+        <p>© <span id="currentYear"></span> Recursos Humanos Falabella</p>
+    </footer>
+
+    <script src="{% static 'js/app.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Incluye jQuery y DataTables JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            if ($.fn.DataTable.isDataTable('#tablaEmpleados')) {
+                $('#tablaEmpleados').DataTable().destroy(); // Destruir la instancia previa si existe
+            }
+            $('#tablaEmpleados').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                },
+                "drawCallback": function(settings) {
+                    actualizarResumenTurnos();  
+                }
+            });
+
+            
+            
+            //Manejador para el checkbox de seleccionar todos
+            $('#selectAll').on('click', function() {
+                const isChecked = this.checked;
+                $('.select-row').prop('checked', isChecked); // Selecciona o deselecciona todas las filas
+            });
+
+            // Manejador para los checkboxes individuales
+            $('#tablaEmpleados tbody').on('click', '.select-row', function() {
+                const allChecked = $('.select-row').length === $('.select-row:checked').length;
+                $('#selectAll').prop('checked', allChecked); // Actualiza el checkbox de seleccionar todos
+            });
+
+            // Delegación de eventos para los botones de aprobar y rechazar
+            $(document).on('click', '.btn-approve', function(event) {
+                event.preventDefault();
+                const rut = $(this).data('rut');
+                aprobarTurnosPorRut(rut);
+            });
+
+            $(document).on('click', '.btn-reject', function(event) {
+                event.preventDefault();
+                const rut = $(this).data('rut');
+                rechazarTurnosPorRut(rut);
+            });
+        });
+
+        // Obtener el token CSRF dinámicamente para usar en AJAX
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+
+        // Formatear el RUT para usarlo como ID de CSS válido
+        function formatRut(rut) {
+            return rut.replace(/\./g, '').replace(/-/g, '');
+        }
+
+        // Aprobar turno
+        function aprobarTurnosPorRut(rut) {
+            console.log("RUT original:", rut);
+            fetch(`/turnos/aprobar_rechazar_turno/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                },
+                body: JSON.stringify({ rut: rut, estado: "APROBADO" })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Turno Aprobado',
+                        text: data.message,
+                        showConfirmButton: false,
+                        timer: 2000,
+                    }).then(() => {
+                        actualizarEstadoEnHTML(rut, "Aprobado", "bg-success estado-aprobado");
+                        actualizarResumenTurnos();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error al aprobar el turno: ' + data.message,
+                    });
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un problema con la solicitud. Revisa la consola para más detalles.',
+                });
+                console.error('Error:', error);
+            });
+        }
+
+        // Rechazar turno
+        function rechazarTurnosPorRut(rut) {
+            Swal.fire({
+                title: 'Motivo del Rechazo',
+                input: 'text',
+                inputLabel: 'Escribe el motivo para rechazar el turno',
+                inputPlaceholder: 'Motivo del rechazo...',
+                showCancelButton: true,
+                confirmButtonText: 'Enviar',
+                cancelButtonText: 'Cancelar',
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Debes ingresar un motivo';
+                    }
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const motivoRechazo = result.value;
+
+                    fetch(`/turnos/aprobar_rechazar_turno/`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrftoken
+                        },
+                        body: JSON.stringify({ rut: rut, estado: "RECHAZADO", motivo_rechazo: motivoRechazo })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Turno Rechazado',
+                                text: data.message,
+                                showConfirmButton: false,
+                                timer: 2000,
+                            }).then(() => {
+                                actualizarEstadoEnHTML(rut, "Rechazado", "bg-danger estado-rechazado");
+                                actualizarResumenTurnos();
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Error al rechazar el turno: ' + data.message,
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Hubo un problema con la solicitud. Revisa la consola para más detalles.',
+                        });
+                        console.error('Error:', error);
+                    });
+                }
+            });
+        }
+
+    
+        function actualizarEstadoEnHTML(rut, nuevoEstado, claseCss) {
+            const formattedRut = formatRut(rut);
+            console.log("RUT formateado:", formattedRut); 
+            const estadoElemento = document.querySelector(`#estado-${formattedRut}`);
+            
+            console.log(`Actualizando estado para RUT: ${formattedRut}`); // Log para verificar el RUT formateado
+            if (estadoElemento) {
+                console.log(`Elemento encontrado para el estado:`, estadoElemento); // Log para verificar que se ha encontrado el elemento
+                estadoElemento.innerHTML = `<span class="badge ${claseCss}">${nuevoEstado}</span>`;
+            } else {
+                console.error(`No se encontró el elemento de estado para RUT: ${formattedRut}`);
+            }
+            actualizarResumenTurnos(); // Actualiza el resumen de turnos
+        }
+
+
+        // Actualizar el resumen de turnos
+        function actualizarResumenTurnos() {
+            console.log("Actualizando resumen de turnos");
+
+            // Inicializa los contadores para cada estado
+            let aprobados = 0;
+            let pendientes = 0;
+            let rechazados = 0;
+            let noAsignados = 0;
+
+            // Accede a todos los datos de la tabla usando DataTables
+            const dataTable = $('#tablaEmpleados').DataTable();
+            const allData = dataTable.rows({ search: 'applied' }).data(); // Accede a todos los datos en la tabla, incluso los no visibles
+
+            // Itera sobre todos los datos para contar cada estado
+            allData.each((rowData) => {
+                const estadoHtml = rowData[5]; // Suponiendo que la columna de estado es la sexta en la tabla
+                const estado = $(estadoHtml).text().trim();
+
+                // Contabilizar cada estado
+                if (estado === "Aprobado") {
+                    aprobados++;
+                } else if (estado === "Pendiente") {
+                    pendientes++;
+                } else if (estado === "Rechazado") {
+                    rechazados++;
+                } else if (estado === "No Asignado") {
+                    noAsignados++;
+                }
+            });
+
+            // Actualizar los elementos del resumen con los valores calculados
+            document.getElementById('resumen-aprobados').textContent = aprobados;
+            document.getElementById('resumen-pendientes').textContent = pendientes;
+            document.getElementById('resumen-rechazados').textContent = rechazados;
+            document.getElementById('resumen-no-asignados').textContent = noAsignados;
+        }
+
+
+        document.addEventListener('DOMContentLoaded', actualizarResumenTurnos);
+
+        function modificarYReasignarTurnos(rut, fullName) {
+            // URL para la vista que elimina los turnos del próximo mes
+            const eliminarUrl = `/turnos/eliminar_turnos_mes_siguiente/${encodeURIComponent(rut)}/`;
+
+            // Realizar la solicitud de eliminación con AJAX
+            fetch(eliminarUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken  // Usa el token CSRF para solicitudes POST
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Turno eliminado',
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        const url = `/calendario_turnos?rut=${encodeURIComponent(rut)}&nombre=${encodeURIComponent(fullName)}`;
+                        window.location.href = url;
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.message
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un problema al intentar eliminar el turno.'
+                });
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const botonesVerTurno = document.querySelectorAll('.btn-ver-turno');
+            botonesVerTurno.forEach(boton => {
+                boton.addEventListener('click', function() {
+                    const rut = boton.getAttribute('data-rut');
+                    if (rut) {
+                        // Redirigir al calendario con el filtro aplicado
+                        window.location.href = `/calendario_general?trabajador=${encodeURIComponent(rut)}`;
+                    }
+                });
+            });
+        });
+    
+        
+
+
+
+    </script>
+</body>
+</html>

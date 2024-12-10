@@ -1,0 +1,568 @@
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Estilos generales */
+html, body {
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #ffffff; 
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column; 
+    overflow-x: hidden;
+}
+
+.container {
+    flex: 1;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.container-fluid {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+main {
+    flex: 1;
+    margin-top: 20px;
+    padding: 20px;
+}
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 991px) {
+    #sidebar {
+        flex: 0 0 100%;
+        max-width: 100%;
+        height: auto;
+        position: static;
+        padding-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    main {
+        flex: 1;
+        padding: 20px;
+        margin-left: 0; 
+    }
+}
+
+@media (min-width: 1440px) {
+    #sidebar {
+        flex: 0 0 250px;
+        max-width: 250px;
+    }
+
+    main {
+        flex: 1;
+        padding: 20px;
+        margin-left: 250px; 
+    }
+}
+
+
+/* Footer siempre en la parte inferior */
+footer {
+    padding: 20px;
+    text-align: center;
+    color: #ECF0F1; 
+    font-size: 0.9rem;
+    background-color: #2C3E50; 
+    width: 100%;
+    margin-top: auto; 
+}
+
+
+/* Estilos para el Sidebar */
+#sidebar {
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    padding-top: 10px; 
+    border-right: 1px solid #ddd;
+    overflow-x: hidden;
+}
+
+#sidebar .nav-link {
+    font-size: 1rem;
+    padding: 10px 15px;
+    color: #000000;
+}
+
+#sidebar .nav-link:hover {
+    border-radius: 5px;
+    color: #2c3e50;
+}
+
+#sidebar .nav-link i.fas {
+    font-size: 1.2rem;
+    color: #2c3e50; 
+    transition: color 0.3s ease; 
+}
+
+#sidebar .nav-link:hover i.fas {
+    color: #3498db; 
+}
+
+
+
+/* Estilos de las tarjetas personalizadas */
+.custom-card {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.stats-card:hover { 
+    transform: translateY(-5px);
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Mejora en los estilos de .empleados-activos */
+.empleados-activos, .turnos-pendientes, .reportes-generados{
+    font-size: 1.5rem; 
+    color: #ffffff;    
+    text-align: center; 
+    margin: 0;
+    font-weight: bold;
+}
+
+
+/* Estilo para los botones */
+.btn-primary {
+    background-color: #3498db;
+    border-color: #3498db;
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilos generales para los iconos */
+i.fas {
+    font-size: 1.5rem; 
+    color: #ffffff; 
+    margin-right: 10px; 
+    vertical-align: middle; 
+}
+
+/* Cambiar color de los iconos según el tipo de tarjeta */
+.bg-info i.fas {
+    color: #ffffff; 
+}
+
+.bg-success i.fas {
+    color: #ffffff; 
+}
+
+.bg-warning i.fas {
+    color: #ffffff; 
+}
+
+
+/* Estilos generales para ambos formularios */
+form {
+    width: 100%; 
+    max-width: 500px; 
+    margin: 0 auto; 
+    padding: 20px;
+    background-color: #f8f9fa; 
+    border: 1px solid #ccc; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+/* Estilo para las etiquetas de los formularios */
+form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #343a40;
+}
+
+/* Estilo para los campos de entrada */
+form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 20px; 
+    box-sizing: border-box; 
+}
+
+/* Ajuste de los botones */
+form button {
+    padding: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+
+
+/* Estilos similares a los formularios para el contenedor de asignación masiva */
+#asignacionMasiva {
+    width: 100%; 
+    max-width: 500px; 
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa; 
+    border: 1px solid #ccc; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para la etiqueta del RUT masivo */
+#asignacionMasiva label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #343a40;
+}
+
+/* Estilo para los campos de entrada dentro del bloque */
+#asignacionMasiva input[type="text"] {
+    width: 80%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    box-sizing: border-box; 
+}
+
+
+
+
+
+/* Mensaje de error personalizado */
+.custom-error-msg {
+    background-color: #fdecea;
+    color: #a94442;
+    padding: 15px;
+    border-left: 6px solid #f44336;
+    margin-top: 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1rem;
+    animation: fadeIn 0.5s ease-in-out;
+    display: none;
+}
+
+.custom-card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.form-select-lg {
+    padding: 10px;
+    font-size: 1.2rem;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.alert-danger ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.alert-danger li {
+    list-style-type: disc;
+}
+
+
+/* Seleccionador de opciones */
+#tipoAsignacion {
+    position: sticky; 
+    top: 20px;
+    z-index: 100; 
+    padding: 12px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+
+#tipoAsignacion:hover, #tipoAsignacion:focus {
+    border-color: #2980b9;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+
+.badge-success {
+    background-color: #28a745; 
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.badge-danger {
+    background-color: #e74c3c; 
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+/* Estilo general para los botones de asignar turno */
+button#asignarTurnoBtn, 
+button#asignarTurnoMasivoBtn {
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    cursor: pointer;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+/* Estilo del botón de "Asignar Turno" (individual) */
+button#asignarTurnoBtn {
+    background-color: #007bff; 
+    color: white;
+}
+
+button#asignarTurnoBtn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05); 
+}
+
+/* Estilo del botón de "Asignar Turno Masivo" */
+button#asignarTurnoMasivoBtn {
+    background-color: #ffc107; 
+    color: white;
+}
+
+button#asignarTurnoMasivoBtn:hover {
+    background-color: #e0a800; 
+    transform: scale(1.05); 
+}
+
+/* Estilo para los íconos dentro de los botones */
+button i {
+    margin-right: 8px;
+}
+
+/* Margen superior para botones, si se desea separar del contenido anterior */
+button.btn-lg.mt-3 {
+    margin-top: 20px;
+}
+
+/* Contenedor para los botones */
+.button-container {
+    display: flex;
+    justify-content: flex-end; 
+    margin-top: 20px; 
+}
+
+/* Márgenes entre los botones */
+.button-container button {
+    margin-right: 20px;
+}
+
+
+
+.option-box i {
+    font-size: 2.5rem;
+    color: #2980B9;
+    margin-bottom: 10px;
+}
+
+
+.option-box:hover {
+    border-color: #2980B9;
+    background-color: #f0f8ff;
+    transform: scale(1.05);
+}
+
+.option-box.selected {
+    border-color: #2980B9;
+    background-color: #eaf2f8;
+}
+
+.row {
+    display: flex;  
+}
+
+.option-box {
+    flex: 1;  
+    text-align: center;  
+    padding: 20px;  
+    border: 1px solid #ccc;  
+    border-radius: 10px;  
+    transition: background-color 0.3s, transform 0.3s; 
+    background-color: #f8f9fa;  
+}
+
+
+/* Botón de agregar "+" */
+.addRUTBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 8px;  
+    font-size: 1rem; 
+    background-color: #28a745;  
+    color: white;  
+    border: none;  
+    border-radius: 0 6px 6px 0;  
+    height: 38px; 
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.addRUTBtn:hover {
+    background-color: #218838;  
+    transform: scale(1.05);  
+}
+
+
+.input-group {
+    display: flex;
+    align-items: stretch;  
+}
+
+.input-group input {
+    flex: 1;  
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px 0 0 6px;  
+    box-sizing: border-box;
+    height: 38px;  
+    transition: width 0.3s ease;  
+}
+
+.input-group .btn {
+    padding: 0 10px;  
+    font-size: 1.25rem;
+    height: 38px;
+}
+
+/* Botón de eliminar con ícono "trash" */
+.btn-eliminar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;  
+    background-color: #dc3545;  
+    color: white;  
+    border: none;  
+    border-radius: 6px;  
+    height: 38px;  
+    width: 38px;  
+    transition: background-color 0.3s ease, transform 0.2s ease;  
+    padding: 0; 
+} 
+
+.btn-eliminar i {
+    display: flex;  
+    align-items: center;  
+    justify-content: center;  
+    font-size: 1.25rem;  
+    width: 100%;  
+    height: 100%;  
+}
+
+.btn-eliminar:hover {
+    background-color: #c82333;  
+    transform: scale(1.05);  
+}
+
+.empleados-container {
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    flex-direction: column;
+    color: white;
+}
+
+.empleados-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    height: 200px;
+    overflow: hidden;
+}
+
+.empleado-item {
+    margin-bottom: 10px; 
+    display: none; 
+}
+
+.btn {
+    cursor: pointer;
+}
+
+#flechaPendientes {
+    transition: transform 0.3s ease-in-out; 
+}
+
+.rotar-arriba {
+    transform: rotate(180deg); 
+}
+
+#flechaDepartamentos {
+    transition: transform 0.3s ease-in-out;
+
+}
+
+
+.flechas-navegacion {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    width: 100%; 
+    margin-top: 20px; 
+}
+
+#prevEmpleados, #nextEmpleados {
+    font-size: 2rem;
+    padding: 6px;
+    border: none;
+    background-color: transparent;
+    color: #ffffff;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+#prevEmpleados:hover, #nextEmpleados:hover {
+    color: #2980b9; 
+    transform: scale(1.1);
+}
+
+#prevEmpleados:active, #nextEmpleados:active {
+    transform: scale(0.9);
+}
+
+#prevEmpleados[disabled], #nextEmpleados[disabled] {
+    color: #bdc3c7; 
+    cursor: not-allowed;
+}
+

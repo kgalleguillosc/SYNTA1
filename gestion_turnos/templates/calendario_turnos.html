@@ -1,0 +1,173 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Asignación de Turnos</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Incluir CSS -->
+    <link rel="stylesheet" href="{% static 'css/calendario_turnos.css' %}?v=2.0">
+    <!-- Incluir FullCalendar CSS y JS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+     <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="container mt-4">
+        <h2 class="text-left mb-4 border-bottom">Asignación de Turnos</h2> <!-- Título alineado a la izquierda -->
+        <div class="grid-container calendar-section">
+            <div class="grid-item calendar">
+                <p><strong>Nombre ejecutivo:</strong> <span id="nombreEjecutivo"></span></p>
+                <p><strong>RUT:</strong> <span id="rutTrabajador"></span></p>
+                <div id="calendar"></div>
+            </div> 
+            <div class="grid-item turno-form">
+                <!-- Instrucciones debajo del formulario -->
+                <div id="instrucciones" class="mt-4">
+                    <h5>Instrucciones:</h5>
+                    <ul>
+                        <ul>
+                            <li>Selecciona el rango de fechas en el calendario.</li>
+                            <li>Elige un turno del menú desplegable.</li>
+                            <li>Haz clic en <strong>"Guardar Turno"</strong> para asignar el turno al empleado.</li>
+                            <li>Para eliminar un turno, simplemente haz click sobre él.</li>
+                            <li>
+                                Antes de validar los turnos, asegúrate de asignar los turnos de 
+                                <strong>todas las semanas que contengan días del mes</strong> que estás planificando, 
+                                incluso si esas semanas incluyen días de meses adyacentes (por ejemplo, días del mes posterior).
+                                Una vez que hayas asignado todos los turnos necesarios para el mes, utiliza la opción 
+                                <strong>"Validar Turnos"</strong> para confirmar que los turnos asignados cumplen con las reglas establecidas.
+                            </li>
+                        </ul>
+                        
+                        
+                        
+
+
+                    </ul>
+                </div>
+
+                <form id="turnosForm" class="mt-4" method="POST">
+                    {% csrf_token %}
+                    <label for="codigoTurno">Código de Turno:</label>
+                    <select id="codigoTurno" name="codigoTurno">
+                        <option value="A2">A2 - 09:00 a 19:00</option>
+                        <option value="A3">A3 - 11:00 a 21:00</option>
+                        <option value="A5">A5 - 09:00 a 20:00</option>
+                        <option value="A7">A7 - 09:00 a 15:00</option>
+                        <option value="A8">A8 - 15:00 a 21:00</option>
+                        <option value="A10">A10 - 09:00 a 18:00</option>
+                        <option value="A11">A11 - 08:30 a 18:30</option>
+                        <option value="A13">A13 - 09:00 a 17:00</option>
+                        <option value="A14">A14 - 10:00 a 19:00</option>
+                        <option value="A16">A16 - 11:00 a 17:00</option>
+                        <option value="A18">A18 - 09:00 a 14:00</option>
+                        <option value="A35">A35 - 10:00 a 15:00</option>
+                        <option value="A36">A36 - 10:30 a 19:00</option>
+                        <option value="A36_1">A36.1 - 11:00 a 19:00</option>
+                        <option value="A41">A41 - 12:00 a 19:30</option>
+                        <option value="A57">A57 - 08:00 a 16:00</option>
+                        <option value="A60">A60 - 13:30 a 21:00</option>
+                        <option value="A68">A68 - 14:00 a 21:00</option>
+                        <option value="B10">B10 - 15:30 a 21:00</option>
+                        <option value="B14">B14 - 09:30 a 15:30</option>
+                        <option value="DES">DES - DESCANSO</option>
+                        <option value="F52">F52 - 11:00 a 19:30</option>
+                        <option value="F54">F54 - 10:00 a 18:00</option>
+                        <option value="P07">P07 - 12:30 a 21:00</option>
+                        <option value="P22">P22 - 09:00 a 13:00</option>
+                        <option value="P28">P28 - 09:00 a 16:00</option>
+                        <option value="P37">P37 - 08:00 a 18:00</option>
+                        <option value="P38">P38 - 08:30 a 17:30</option>
+                        <option value="P50">P50 - 10:00 a 20:00</option>
+                        <option value="P57">P57 - 11:30 a 21:00</option>
+                        <option value="TE39">TE39 - 10:00 a 19:00</option>
+                        <option value="TE48">TE48 - 10:00 a 17:00</option>
+                        <option value="TE51">TE51 - 11:30 a 19:00</option>
+                        <option value="TE51_1">TE51.1 - 12:00 a 19:00</option>
+                    </select>
+                    
+                    <button id= "agregarTurnoBtn" type="button" class="btn btn-primary">Agregar Turno</button>
+                </form>
+
+            
+
+                <!-- Botón para limpiar la selección -->
+                <button id="limpiarSeleccion" class="btn btn-warning mt-4">Limpiar Selección</button>
+
+                <div id="validacionesResumen" class="mt-4" style="border: 1px solid #ccc; padding: 20px;">
+                    <h4>Validaciones</h4>
+                
+                    <!-- Resumen de horas por semana -->
+                    <ul id="resumenSemanas">
+                        <!-- Aquí se mostrarán las validaciones de horas por semana -->
+                    </ul>
+                    
+                
+                    <!-- Mensaje de validación general de horas -->
+                    <p id="validacionHoras"></p>
+                
+                    <!-- Validaciones específicas de excepciones -->
+                    <ul id="validacionExcepciones"></ul>
+                
+
+                    <!-- Validación de sábados libres -->
+                    <ul id="validacionSabados"></ul>
+                
+                    
+                    <!-- Botón para ejecutar validaciones -->
+                    <button id="validarTurnosBtn" class="btn btn-info mt-3">Validar Turnos</button>
+                
+                    <!-- Botón para guardar turnos, inicialmente oculto -->
+                    <button id="guardarTurnosBtn" type="submit" class="btn btn-success mt-3" style="display: none;">Guardar Turnos</button>
+                </div>
+                
+            </div>
+            
+        </div> 
+        
+    </div>           
+
+    <footer>
+        <p>© <span id="currentYear"></span> Recursos Humanos Falabella</p>
+    </footer>
+
+    <script>
+        var userRole = "{{ user.rol }}"; 
+    </script>
+
+    <script>
+
+    document.addEventListener("DOMContentLoaded", function() {
+        // Obtener el parámetro `empleados` de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const empleadosEncoded = urlParams.get("empleados");
+
+        if (empleadosEncoded) {
+            // Decodificamos el parámetro y lo parseamos a JSON
+            const empleados = JSON.parse(atob(empleadosEncoded));
+
+            // Ahora puedes procesar cada empleado para asignar turnos o mostrarlos en la página
+            empleados.forEach(empleado => {
+                console.log(`Asignando turnos para ${empleado.nombre} con RUT: ${empleado.rut}`);
+                // Aquí iría la lógica para asignar turnos, similar a la asignación individual
+            });
+        }
+    });
+
+    </script>
+
+    
+
+    <script src="{% static 'js/calendario.js' %}"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>
+  

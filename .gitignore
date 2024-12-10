@@ -1,0 +1,13 @@
+# Django
+*.pyc
+__pycache__/
+
+
+# Archivos de configuración sensible
+*.env
+
+# Archivos estáticos generados
+staticfiles/
+
+# Entornos virtuales
+.venv/

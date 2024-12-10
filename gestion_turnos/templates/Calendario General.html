@@ -1,0 +1,253 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario General</title>
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/main.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid/main.min.css" rel="stylesheet">
+    <!-- Incluir FullCalendar CSS y JS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/timeline/main.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/resource-timeline/main.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/Calendario Gral.css' %}?v=2.0">
+    <!-- Bootstrap CSS (para los selectores y botones) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    
+
+
+
+</head>
+<body>
+    {% include 'navbar.html' %}
+    
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+                <div class="position-sticky">
+                    <ul class="nav flex-column">
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-history"></i> Historial de Turnos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-clock"></i>Solicitudes Pendientes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-hourglass-half"></i>Resumen de Horas Laborales</a>
+                        </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-file-import"></i>Importar/Exportar Datos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'calendario_general' %}"><i class="fas fa-calendar-check"></i>Calendario General</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'usuarios' %}"><i class="fas fa-user"></i>Usuarios</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <h2 class="text-center my-4">Calendario General de Turnos</h2>
+
+                <!-- Filtros de búsqueda -->
+                <div class="row mb-4">
+                    <div class="col-lg-3 col-md-3 col-sm-6 mb-3">
+                        <label for="filtro-departamento" class="form-label">Departamento</label>
+                        <select id="filtro-departamento" class="form-select">
+                            <option value="">Todos los Departamentos</option>
+                            {% for departamento in departamentos %}
+                                <option value="{{ departamento }}">{{ departamento }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                   
+                    
+                    <div class="col-md-3">
+                        <label for="filtro-turno" class="form-label">Filtrar por Tipo de Turno</label>
+                        <select id="filtro-turno" class="form-select">
+                            <option value="">Todos los Turnos</option>
+                            <option value="A10">A10</option>
+                            <option value="P22">P22</option>
+                            <option value="A11">A11</option>
+                            <option value="A13">A13</option>
+                            <option value="P28">P28</option>
+                            <option value="A14">A14</option>
+                            <option value="A16">A16</option>
+                            <option value="A18">A18</option>
+                            <option value="A2">A2</option>
+                            <option value="TE39">TE39</option>
+                            <option value="A3">A3</option>
+                            <option value="A35">A35</option>
+                            <option value="A36">A36</option>
+                            <option value="TE51">TE51</option>
+                            <option value="A5">A5</option>
+                            <option value="A57">A57</option>
+                            <option value="A6">A6</option>
+                            <option value="A68">A68</option>
+                            <option value="A7">A7</option>
+                            <option value="A8">A8</option>
+                            <option value="B10">B10</option>
+                            <option value="B14">B14</option>
+                            <option value="F54">F54</option>
+                            <option value="TE48">TE48</option>
+                            <option value="P07">P07</option>
+                            <option value="A60">A60</option>
+                            <option value="P37">P37</option>
+                            <option value="P38">P38</option>
+                            <option value="P50">P50</option>
+                            <option value="P57">P57</option>
+                            <option value="F52">F52</option>
+                            <option value="A41">A41</option>
+                            <option value="DES">DESCANSO</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 mb-3">
+                        <label for="filtro-trabajador" class="form-label">Filtrar por Trabajador</label>
+                        <select id="filtro-trabajador" class="form-select">
+                            <option value="">Todos los Trabajadores</option>
+                            {% for empleado in empleados %}
+                                <option value="{{ empleado.rut }}">{{ empleado.full_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                </div>
+
+                <!-- Contenedor del calendario -->
+                <div id="calendarContainer" class="bg-light p-3" style="min-height: 500px; border-radius: 10px;">
+                    <div id="calendar"></div>
+                </div>
+                
+
+                
+                
+                <!-- Modal para mostrar detalles -->
+                <div class="modal fade" id="turnoModal" tabindex="-1" aria-labelledby="turnoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="turnoModalLabel">Detalles del Turno</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Aquí se muestran los detalles dinámicos -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <p>© <span id="currentYear"></span> Recursos Humanos Falabella</p>
+    </footer>
+
+    <!-- Incluir jQuery antes de Bootstrap y otros scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+    <!-- Script para manejar los filtros y el calendario -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Leer el parámetro trabajador desde la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const trabajador = urlParams.get('trabajador');
+
+            // Asignar el valor al filtro y disparar el evento de cambio si está presente
+            if (trabajador) {
+                const filtroTrabajador = document.getElementById('filtro-trabajador');
+                if (filtroTrabajador) {
+                    filtroTrabajador.value = trabajador;
+                    filtroTrabajador.dispatchEvent(new Event('change'));
+                }
+            }
+
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                locale: 'es',
+                firstDay: 1,
+                displayEventTime: false,
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,dayGridWeek,dayGridDay'
+                },
+                events: function(fetchInfo, successCallback, failureCallback) {
+                    // Obtener valores de los filtros
+                    const departamento = document.getElementById('filtro-departamento').value;
+                    const turno = document.getElementById('filtro-turno').value;
+                    const trabajador = document.getElementById('filtro-trabajador').value;
+        
+                    // Hacer solicitud GET con los parámetros de filtro
+                    fetch(`/turnos/obtener_turnos_agrupados/?departamento=${departamento}&turno=${turno}&trabajador=${trabajador}`)
+                        .then(response => response.json())
+                        .then(events => successCallback(events))
+                        .catch(error => failureCallback(error));
+                },
+                eventClick: function(info) {
+                    const start = info.event.start.toLocaleString(); // Fecha y hora de inicio
+                    const end = info.event.end ? info.event.end.toLocaleString() : 'Todo el día'; // Fecha y hora de fin
+                    const trabajadores = info.event.extendedProps.trabajadores || [];
+                    
+                    // Crear la lista de trabajadores con RUT y nombre completo
+                    let trabajadoresHTML = '';
+                    if (trabajadores && trabajadores.length > 0) {
+                        trabajadoresHTML = '<ul>';
+                        trabajadores.forEach(trabajador => {
+                            trabajadoresHTML += `<li>${trabajador.rut_trabajador} - ${trabajador.nombre} - ${trabajador.departamento}</li>`;
+                        });
+                        trabajadoresHTML += '</ul>';
+                    } else {
+                        trabajadoresHTML = '<p>No hay trabajadores asignados.</p>';
+                    }
+
+                    // Mostrar en el modal
+                    $('#turnoModal').modal('show');
+                    $('#turnoModalLabel').text(info.event.title);
+                    document.querySelector('.modal-body').innerHTML = `
+                        <p><strong>Inicio:</strong> ${start}</p>
+                        <p><strong>Fin:</strong> ${end}</p>
+                        <p><strong>Trabajadores:</strong></p>
+                        ${trabajadoresHTML}
+                    `;
+                }
+
+            });
+
+            calendar.render();
+            // Aplicar filtros al cambiar los selects
+            const filtros = document.querySelectorAll('#filtro-departamento, #filtro-turno, #filtro-trabajador');
+            filtros.forEach(filtro => {
+                filtro.addEventListener('change', function() {
+                    // Refrescar los eventos cuando cambien los filtros
+                    calendar.refetchEvents();
+
+                    // Eliminar el parámetro 'trabajador' de la URL si se cambia manualmente
+                    if (filtro.id === 'filtro-trabajador' && !filtro.value) {
+                        const urlWithoutTrabajador = window.location.origin + window.location.pathname;
+                        history.replaceState(null, '', urlWithoutTrabajador);
+                    }
+                });
+            });
+        });
+    
+    </script>
+</body>
+</html>
